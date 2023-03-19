@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    react-app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        environment:
+            - WATCHPACK_POLLING=true
+        ports:
+            - '3000:3000'
+
+        volumes:
+            - /app/node_modules
+            - .:/app
+
+        command: ['npm', 'start']
+
+    react-tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        environment:
+            - WATCHPACK_POLLING="true"
+            - NODE_ENV=development
+        volumes:
+            - /app/node_modules
+            - .:/app
+
+        command: ['npm', 'run', 'test']
