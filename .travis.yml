@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t cceerbhurtel/travis_test -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true cceerbhurtel/travis_test npm run test
+
