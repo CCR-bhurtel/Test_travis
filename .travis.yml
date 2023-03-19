@@ -1,10 +1,23 @@
 sudo: required
 services:
-  - docker
+    - docker
 
 before_install:
-  - docker build -t cceerbhurtel/travis_test -f Dockerfile.dev .
+    - docker build -t cceerbhurtel/travis_test -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true cceerbhurtel/travis_test npm run test
+    - docker run -e CI=true cceerbhurtel/travis_test npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "test-app"
+  env: "Testapplication-env"
+  bucket_name: "elasticbeanstalk-us-east-1-113043979519"
+  bucket_path: 'test-app'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure : "$AWS_SECRET_KEY"
 
